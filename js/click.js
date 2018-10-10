@@ -1,8 +1,13 @@
 
 var app = new PIXI.Application(1920, 1080, { backgroundColor: 0x1099bb });
-
-
 document.body.appendChild(app.view);
+
+// create a background...
+var background = PIXI.Sprite.fromImage('/assets/2.jpg');
+background.width = app.screen.width;
+background.height = app.screen.height;
+// add background to stage...
+app.stage.addChild(background);
 // var texture = PIXI.Texture.fromImage('assets/1.png');
 // var bunny = new PIXI.Sprite(texture);
 // bunny.x = app.screen.width / 2;
@@ -247,21 +252,6 @@ function calcPhotoCenter(maxIdx) {
     centerCircle.endFill();
     app.stage.addChild(centerCircle);
 }
-// console.log(testGraphics.graphicsData); // [t]
-// console.log(testGraphics.children); // [] 繪製的物件不算 children 的成員
-
-// 這是一隻兔子
-// var bunny = PIXI.Sprite.fromImage('http://pixijs.io/examples/required/assets/basics/bunny.png');
-// testGraphics.addChild(bunny);
-
-// console.log(testGraphics.children); // [e] 兔子在 children 陣列裡了
-
-// testGraphics.clear(); // 方塊不見, 兔子還在
-// console.log(testGraphics.graphicsData); // [] graphicsData 的內容被清除了
-// console.log(testGraphics.children); // [e] 清除繪製的物件不會移除 children 陣列
-
-// app.stage.addChild(sprite);
-// app.stage.addChild(testGraphics);
 
 
 function onClick() {

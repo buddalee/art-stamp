@@ -5,11 +5,76 @@
   <meta name="viewport" 
   content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>art stamps</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
 </head>
 <body>
+  <div style="height: 30px">
+      <span id="success-text" class="success-text">恭喜你，成功為乾隆蓋章，但千萬不要自己蓋章到實體的文物上喔</span>
+      <button id="confirmBtn" disabled class="btn btn-primary" onclick="checkAns()">確定答案</button>
+  </div>
+  <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#errorDialog">
+      Launch demo modal
+    </button> -->
+    
+    <!-- Modal -->
+    <div class="modal fade" id="errorDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">乾隆:</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            錯！！朕不是要蓋這裡！！
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">奴才斗膽再挑一次</button>
+            <button type="button" onclick="hideCanvas()" class="btn btn-primary">皇上息怒，奴才先告退</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section id="final" class="final">
+      <img src="/assets/2.jpg">
+      <div>
+        <button class="btn btn-secondary" onclick="showCanvas()">挑戰下一幅畫作</button>
+        <button class="btn btn-secondary">公諸於世</button>
+        <button class="btn btn-secondary">離開</button>
+        <button class="btn btn-secondary">故宮展覽介紹</button>        
+      </div>
+    </section>
+  <style>
+      body canvas,
+      body canvas:hover {
+        cursor: url('assets/stamp.png'), auto!important;
+      }
+      .show {
+        display: block;
+      }
+      .final {
+        display: none;
+      }
+      .final.show {
+        display: block;
+      }
+      .success-text {
+        display: none;
+      }
+      .success-text.show {
+        display: block;
+      }
+    </style>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
   <!-- <button onclick="showDot()">Show Dot</button> -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.4/pixi.min.js'></script>
   <!-- <script  src="js/index.js"></script> -->
   <script src="js/click.js"></script>
+  
 </body>
 </html>

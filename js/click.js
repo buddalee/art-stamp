@@ -519,6 +519,9 @@ function handleApiText() {
     const slogan1 = '元';
     const slogan2 = '元順宗至元四年（1338）';
     if (level === 0) {
+        // meta
+        $('meta[property="og:description"]').attr("content", "我在蓋章攻略挑戰《鵲華秋色圖》成功");
+        $('meta[property="og:image]').attr("content", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563659&r=76444636820");
         $('#first-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563659&r=76444636820");
         $('#second-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563660&r=53685105549");
         $('#third-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563661&r=27156401078");
@@ -532,6 +535,8 @@ function handleApiText() {
       $('#media').text(media1);
       $('#slogan').text(slogan1);
     } else {
+        $('meta[property="og:description"]').attr("content", "我在蓋章攻略挑戰《富春山居圖》成功");
+        $('meta[property="og:image]').attr("content", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563899&r=46846323715");
         $('#first-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563899&r=46846323715");
         $('#second-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563898&r=45803529818");
         $('#third-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563897&r=74336372668");        

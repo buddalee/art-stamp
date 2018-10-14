@@ -1,12 +1,13 @@
 var app;
 var stampType = 1;
+var images = ['assets/1.jpg', 'assets/2.jpeg'];
+var level = 0;
+app = new PIXI.Application(window.innerWidth, window.innerHeight - 30, { backgroundColor: 0x1099bb });
+// app = new PIXI.Application(800, 600, { backgroundColor: 0x1099bb });
+document.body.appendChild(app.view);
 function init() {
-    app = new PIXI.Application(window.innerWidth, window.innerHeight - 30, { backgroundColor: 0x1099bb });
-    // app = new PIXI.Application(800, 600, { backgroundColor: 0x1099bb });
-    document.body.appendChild(app.view);
-
     // create a background...
-    var background = PIXI.Sprite.fromImage('assets/2.jpg');
+    var background = PIXI.Sprite.fromImage(images[level]);
     background.width = app.screen.width;
     background.height = app.screen.height;
     // add background to stage...
@@ -25,6 +26,8 @@ function init() {
         .on('pointerupoutside', onDragEnd);
     $('canvas').addClass('stamp1');
     $('#stamp-btn1').addClass('choose');
+    $('#stamp-btn2').removeClass('choose');
+    stampType = 1;
     
 }
 init();
@@ -58,53 +61,44 @@ function getRandomInt(min, max) {
     ansNum2 = Math.floor(Math.random() * (max - min + 1)) + min;
     while(ansNum1 === ansNum2) {
         ansNum2 = Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-    console.log('ansNum1: ', ansNum1);
-    console.log('ansNum2: ', ansNum2);
-    
+    } 
 }
 
 getRandomInt(1, 16);
+var centerArr;
 
-var centerArr = [];
 var xd = app.screen.width / 8;
 var yd = app.screen.height / 8;
 
-var startx = 0,
-    starty = 0,
-    endx = 4,
-    endy = 4;
-for (; startx < endx; startx++) {
-    for (starty = 0; starty < endy; starty++) {
-        var x = xd + starty * 2 * xd;
-        var y = yd + startx * 2 * yd;
-        centerArr.push({ x, y });
-    }
-}
-var ansPointArray = [];
-ansPointArray[0] = centerArr[ansNum1 - 1];
-ansPointArray[1] = centerArr[ansNum2 - 1];
-
-ansPointArray[0].type = 1;
-ansPointArray[1].type = 2;
-
-var toloranceD = xd > yd ? xd : yd;
-// renderStamp(ansPointArray[0]);
-// renderStamp(ansPointArray[1]);
-
-// function reRenderTopic() {
-
-// }
-function createTopic() {
-
-}
+var ansPointArray;
+var toloranceD;
 var countingText;
 var isCanPlay = false;
 
 execCount();
 function execCount() {
+    centerArr = [];
+    var startx = 0,
+        starty = 0,
+        endx = 4,
+        endy = 4;
+    for (; startx < endx; startx++) {
+        for (starty = 0; starty < endy; starty++) {
+            var x = xd + starty * 2 * xd;
+            var y = yd + startx * 2 * yd;
+            centerArr.push({ x, y });
+        }
+    }
+    ansPointArray = [];
+    ansPointArray[0] = centerArr[ansNum1 - 1];
+    ansPointArray[1] = centerArr[ansNum2 - 1];
+
+    ansPointArray[0].type = 1;
+    ansPointArray[1].type = 2;
+    toloranceD = xd > yd ? xd : yd;
     renderStamp(ansPointArray[0]);
     renderStamp(ansPointArray[1]);
+    isCanPlay = false;
     countingText = new PIXI.Text('倒數: 5', {
         fontWeight: 'bold',
         fontStyle: 'italic',
@@ -135,36 +129,6 @@ function execCount() {
         app.stage.removeChild(stamp2);
     }, 5000);
 }
-// countingText = new PIXI.Text('倒數: 5', {
-//     fontWeight: 'bold',
-//     fontStyle: 'italic',
-//     fontSize: 60,
-//     fontFamily: 'Arvo',
-//     fill: '#3e1707',
-//     align: 'center',
-//     stroke: '#a4410e',
-//     strokeThickness: 7
-// });
-// countingText.x = app.screen.width / 2;
-// countingText.y = 0;
-// countingText.anchor.x = 0.5;
-// app.stage.addChild(countingText);
-// var count = 5;
-// var isCanPlay = false;
-// app.ticker.add(function () {
-//     count -= 0.02;
-//     // update the text with a new string
-//     countingText.text = '倒數: ' + Math.floor(count);
-//     if (Math.floor(count) === 0) {
-//         isCanPlay = true;
-//         app.stage.removeChild(countingText)
-//         $('#confirmBtn').prop('disabled', false);
-//     }
-// });
-// setTimeout(() => {
-//     app.stage.removeChild(stamp1);
-//     app.stage.removeChild(stamp2);
-// }, 5000);
 
 // 建立容器
 var objContainer = new PIXI.Container();
@@ -273,16 +237,34 @@ function onDragStart(e) {
 
 }
 function showCanvas() {
+    $('#success-text').removeClass('show');
+    $("#confirmBtn").show();
+    if (level === 1) {
+        level = 0;
+    } else {
+        level++;
+    }
+    init();
+    getRandomInt(1, 16);
+    execCount();
+
     $("canvas").show();
     $("#final").removeClass('show');
-    $('#success-text').removeClass('show');
+    $('#stamp-btn1').show();
+    $('#stamp-btn2').show();
+
 }
 function hideCanvas() {
+    handleApiText();
+
     $("canvas").hide();
     $("#confirmBtn").hide();
-
+    $("#confirmBtn").hide();
+    $('#stamp-btn1').hide();
+    $('#stamp-btn2').hide();
     $("#errorDialog").modal("hide");
     $("#final").addClass('show');
+
 }
 function onDragEnd(e) {
 
@@ -338,7 +320,6 @@ function calcDistance() {
     const maxIdx = dis.findIndex(_dis => _dis === maxDistance);
     calcPhotoCenter(maxIdx);
     calcPhotoAngle(maxIdx);
-    console.log('centerPointArr: ', centerPointArr);
     if (stampType === 1) {
         renderStamp(centerPointArr[0]);
     } else {
@@ -362,14 +343,15 @@ function validateAns(posArr) {
     var count = 0;
     for (; startIdx1 < 2; startIdx1++) {
         for (startIdx2 = 0; startIdx2 < 2; startIdx2++) {
+            if (!posArr[startIdx1]) {
+              return $("#errorDialog").modal("show");
+            }                      
             const distance = Math.sqrt(Math.pow(posArr[startIdx1].x - ansPointArray[startIdx2].x, 2) + Math.pow(posArr[startIdx1].y - ansPointArray[startIdx2].y, 2));
-            console.log('distance: ', distance);
             if (toloranceD >= distance) {
                 count++;
             }
         }
     }
-    console.log('count: ', count);
     if (count >= 2) {
         hideCanvas();
         $('#success-text').addClass('show');
@@ -386,9 +368,7 @@ function renderStamp(target) {
       var texture = PIXI.Texture.fromImage('assets/char2.png');
     }
     if (target.type) {
-        if (target.type === 1) {
-            console.log('我進來創造第一個印章');
-            
+        if (target.type === 1) {            
             var texture = PIXI.Texture.fromImage('assets/char1.png');
             app.stage.removeChild(stamp1); // 把印章刪掉
 
@@ -404,10 +384,11 @@ function renderStamp(target) {
                 stamp1.pivot.y = texture.height / 2;
                 stamp1.rotation = angle * (Math.PI / 180);
                 app.stage.addChild(stamp1);
-                choosePosArr[0] = target;
+                if (isCanPlay) {
+                    choosePosArr[0] = target;
+                }
             }, 300);            
         } else {
-            console.log('我進來創造第二個印章');
             var texture = PIXI.Texture.fromImage('assets/char2.png');
             app.stage.removeChild(stamp2); // 把印章刪掉
 
@@ -418,35 +399,16 @@ function renderStamp(target) {
             setTimeout(() => {
                 stamp2.x = target.x;
                 stamp2.y = target.y;
-        
                 stamp2.pivot.x = texture.width / 2;
                 stamp2.pivot.y = texture.height / 2;
                 stamp2.rotation = angle * (Math.PI / 180);
                 app.stage.addChild(stamp2);
-                choosePosArr[1] = target;
-        
+                if (isCanPlay) {
+                    choosePosArr[1] = target;
+                }
             }, 300);                    
         }
-
-    } else {
-        app.stage.removeChild(stamp1); // 把印章刪掉
-
-        stamp1 = new PIXI.Sprite(texture);
-        const stampWidth = xd > yd ? yd : xd;
-        stamp1.width = stampWidth;
-        stamp1.height = stampWidth;
-        setTimeout(() => {
-            stamp1.x = target.x;
-            stamp1.y = target.y;
-    
-            stamp1.pivot.x = texture.width / 2;
-            stamp1.pivot.y = texture.height / 2;
-            stamp1.rotation = angle * (Math.PI / 180);
-            app.stage.addChild(stamp1);
-    
-        }, 300);
     }
-
 
 }
 var angle = 0;
@@ -477,7 +439,6 @@ function calcPhotoCenter(maxIdx) {
     const { x, y } = touches[maxIdx].pos;
     const _x = touches[anotherIdx].pos.x;
     const _y = touches[anotherIdx].pos.y;
-    // centerPoint = { x: 0, y: 0 };
     app.stage.removeChild(centerCircle); // 把中心點去除
     centerCircle = new PIXI.Graphics();
     if (isShowDot) {
@@ -500,10 +461,6 @@ function calcPhotoCenter(maxIdx) {
         centerCircle.drawCircle(centerPointArr[1].x, centerPointArr[1].y, 10);
 
     }
-    // centerPoint.x = (x + _x) / 2;
-    // centerPoint.y = (y + _y) / 2;
-
-
     centerCircle.endFill();
     app.stage.addChild(centerCircle);
 }
@@ -522,5 +479,55 @@ function chooseStamp(type) {
         stampType = 2;
         $('canvas').addClass('stamp2');
         $('#stamp-btn2').addClass('choose');
+    }
+}
+
+function handleApiText() {
+    const articleSubject1 = `元趙孟頫鵲華秋色　卷`; 
+    const articleSubject2 = `元黃公望富春山居圖　卷`;
+    const articleMaker1 = '趙孟頫';
+    const articleMaker2 = '黃公望,Huang Gongwang';
+    const cateGory1 = '繪畫';
+    const cateGory2 = '繪畫';
+    const articleRemarks1 = '紙 寫意 披麻皴 減筆線條 28.4x93.2公分';
+    const articleRemarks2 = '卷　紙本　水墨畫　縱：33公分　橫：636.9公分';
+    const description1 = `
+    趙孟頫（一二五四－一三二二），浙江吳興人。字子昂，號松雪道人。本宋宗室，宋亡仕元，至翰林學士承旨，封魏國公，諡文敏。詩文清遠，工書善畫，山水、人馬、木石、花竹，樣樣精通。所倡書法入畫，影響後世甚鉅。
+
+    此幅向是畫史上認定為文人畫風式的青綠設色山水。兩座主峰以花青雜以石青，呈深藍色。這與洲渚的淺淡、樹葉的各種深淺不一的青色，成同色調的變化；斜坡、近水邊處，染赭；屋頂、樹幹、樹葉又以紅、黃、赭。這些暖色系的顏色，與花青正形成彩學上補色作用法。運用得非常恰當，青色系顯現透明的清秋涼，足以沁人心脾，但在補色作用下，使人感到一片雅逸恬和，是中和寧靜而不是孤寂蕭索，這該是文人畫所推重的意境。畫主山用「披麻皴」，洲渚的線條也是同一種筆調畫法。整卷筆墨色彩交融，對秋思中的名山，該是帶給觀賞者周密一幅遙遠的故鄉夢境。（王耀庭）    
+    `;
+    const description2 = `
+    黃公望（1269－1354），江蘇常熟人。本姓陸，名堅，字子久，號大癡，又號一峰道人，晚號井西道人。父母早逝，繼永嘉黃氏，其父九十始得之曰：「黃公望子久矣。」因而名字焉。與吳鎮（1280－1354）、倪瓚（1301－1374）、王蒙（1308－1385）合稱為「元四大家」。\r\n \r\n至正七年，年歲漸老的黃公望回歸浙江省富陽縣富春鄉，同門師弟無用師同往，黃氏為無用師描繪富春山景色，到至正十年（1350），歷三四年方完成，時黃氏八十二歲，是其傳世最重要的作品。\r\n \r\n<富春山居圖>（無用師卷）由六紙接成，長逾六公尺，第一紙前有殘補痕跡。明末曾經火厄，裁裂前段部份現由浙江省博物館。畫卷筆墨堆疊層出，山石勾勒皴染變化多樣。全卷山體從渾圓迫近、層疊後偃，平緩坡岸乃至聳峙山峰，具豐富的山水型態。此畫卷不僅是富春的隱居景致，更是黃公望探索自然造化後的理想山水形象。\r\n `;
+    const media1 = '設色';
+    const media2 = '水墨';
+    const slogan1 = '元';
+    const slogan2 = '元順宗至元四年（1338）';
+    if (level === 0) {
+        $('#first-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563659&r=76444636820");
+        $('#second-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563660&r=53685105549");
+        $('#third-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563661&r=27156401078");
+      $('#articleSubject').text(articleSubject1);
+      $('#articleMaker').text(articleMaker1);
+      $('#articleMaker').text(articleMaker1);
+      $('#cateGory').text(cateGory1);
+      $('#articleRemarks').text(articleRemarks1);
+        
+      $('#description').text(description1);
+      $('#media').text(media1);
+      $('#slogan').text(slogan1);
+    } else {
+        $('#first-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563899&r=46846323715");
+        $('#second-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563898&r=45803529818");
+        $('#third-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563897&r=74336372668");        
+        $('#articleSubject').text(articleSubject2);
+        $('#articleMaker').text(articleMaker2);
+        $('#articleMaker').text(articleMaker2);
+        $('#cateGory').text(cateGory2);
+        $('#articleRemarks').text(articleRemarks2);
+          
+        $('#description').text(description2);
+        $('#media').text(media2);
+        $('#slogan').text(slogan2);
+        
     }
 }

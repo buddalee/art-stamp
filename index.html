@@ -7,7 +7,8 @@
   <title>蓋章攻略</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
     crossorigin="anonymous">
-
+  <meta property="og:description" content="我在蓋章攻略挑戰《鵲華秋色圖》成功" />
+  <meta property="og:image"  content="http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563659&r=76444636820" />
 </head>
 
 <body>
@@ -44,7 +45,7 @@
           錯！！朕不是要蓋這裡！！
         </div>
         <div class="modal-footer">
-          <button type="button"onclick="execCount()" class="btn btn-secondary" data-dismiss="modal">奴才斗膽再挑一次</button>
+          <button type="button" onclick="execCount()" class="btn btn-secondary" data-dismiss="modal">奴才斗膽再挑一次</button>
           <button type="button" onclick="hideCanvas()" class="btn btn-primary">皇上息怒，奴才先告退</button>
         </div>
       </div>
@@ -52,79 +53,79 @@
   </div>
 
   <section id="final" class="final container">
-      <div class="row">
-        <div class="col-8">
-          <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-              <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-            </ol>
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img class="d-block w-100" 
-                  src="" 
-                  alt="First slide"
-                  id="first-side"
-                >
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100" 
-                  src="" 
-                  alt="Second slide"
-                  id="second-side"
-                >
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100" 
-                  src="" 
-                  alt="Third slide"
-                  id="third-side"
-                >
-              </div>
+    <div class="row">
+      <div class="col-8">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img class="d-block w-100" src="" alt="First slide" id="first-side">
             </div>
-            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
+            <div class="carousel-item">
+              <img class="d-block w-100" src="" alt="Second slide" id="second-side">
+            </div>
+            <div class="carousel-item">
+              <img class="d-block w-100" src="" alt="Third slide" id="third-side">
+            </div>
           </div>
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
         </div>
-        <div class="col-4">
-          <ul>
-            <li>
-                <label>品名：</label><span id="articleSubject"></span>
-              </li>
-              <li>
-                <label>作者：</label><span id="articleMaker"></span>
-              </li>
-              <li>
-                <label>藏品類型：</label><span id="cateGory"></span>
-              </li>
-              <li>
-                <label>作品規格：</label><span id="articleRemarks"></span>
-              </li>
-              <li>
-                <label>作品敘述：</label>
-                <span style="white-space:pre-line" id="description"></span>
-              </li>
-              <li>
-                <label>創作媒材：</label><span id="media"></span>
-              </li>
-              <li>
-                <label>創作時間：</label><span id="slogan"></span>
-              </li>
-          </ul>
-        </div>
-
       </div>
+      <div class="col-4">
+        <ul>
+          <li>
+            <label>品名：</label>
+            <span id="articleSubject"></span>
+          </li>
+          <li>
+            <label>作者：</label>
+            <span id="articleMaker"></span>
+          </li>
+          <li>
+            <label>藏品類型：</label>
+            <span id="cateGory"></span>
+          </li>
+          <li>
+            <label>作品規格：</label>
+            <span id="articleRemarks"></span>
+          </li>
+          <li>
+            <label>作品敘述：</label>
+            <span style="white-space:pre-line" id="description"></span>
+          </li>
+          <li>
+            <label>創作媒材：</label>
+            <span id="media"></span>
+          </li>
+          <li>
+            <label>創作時間：</label>
+            <span id="slogan"></span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
 
     <div>
       <button class="btn btn-secondary" onclick="showCanvas()">挑戰下一幅畫作</button>
-      <button class="btn btn-secondary">公諸於世</button>
+      <div class="btn btn-secondary" data-href="https://buddalee.github.io/art-stamp/" data-layout="button_count"
+        data-mobile-iframe="true">
+        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://buddalee.github.io/art-stamp/"
+          class="fb-xfbml-parse-ignore"
+          style="color:#fff"
+        >公諸於世</a>
+      </div>
       <button class="btn btn-secondary">離開</button>
       <button class="btn btn-secondary">故宮展覽介紹</button>
     </div>
@@ -134,10 +135,12 @@
     body canvas.stamp1:hover {
       cursor: url('assets/stamp.png'), auto!important;
     }
+
     body canvas.stamp2,
     body canvas.stamp2:hover {
       cursor: url('assets/stamp2.png'), auto!important;
     }
+
     .show {
       display: block;
     }
@@ -157,15 +160,18 @@
     .success-text.show {
       display: block;
     }
+
     .gaming-stamp-btn {
       height: 100%;
       display: inline-block;
       border: 2px solid #ccc;
       padding: 3px 5px;
     }
+
     .gaming-stamp-btn.choose {
       border: 2px solid #333;
     }
+
     .gaming-stamp-btn:hover {
       border: 2px solid #333;
     }
@@ -179,6 +185,15 @@
   <script src='https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.5.4/pixi.min.js'></script>
   <!-- <script  src="js/index.js"></script> -->
   <script src="js/click.js"></script>
+  <!-- Load Facebook SDK for JavaScript -->
+  <div id="fb-root"></div>
+  <script>(function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = 'https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v3.1&appId=428120257618079&autoLogAppEvents=1';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 
 </body>
 

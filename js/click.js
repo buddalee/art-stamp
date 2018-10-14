@@ -196,9 +196,9 @@ function onDragStart(e) {
             id: this.data.identifier,
             pos: touchPos
         };
-        if (touches.length <= 2) {
+        // if (touches.length <= 2) {
             touches.push(touch);
-        }
+        // }
         if (touches.length === 1) {
             testCircle1 = new PIXI.Graphics();
             if (isShowDot) {
@@ -266,8 +266,22 @@ function hideCanvas() {
     $("#final").addClass('show');
 
 }
+var isFourTouch = false; 
 function onDragEnd(e) {
-
+    console.log('目前有幾隻手指按在螢幕上: ', touches.length);
+    if (touches.length > 4) {
+        stampType = 2;
+    } else {
+        stampType = 1;
+    }
+    if (touches.length >= 3 && isCanPlay && !isFourTouch) {
+        calcDistance();
+        if (touches.length > 4) {
+            isFourTouch = true;
+        } else {
+            isFourTouch = false;
+        }
+    }
     this.data = e.data;
     if (!isPCMode) {
         for (var i = 0; i < touches.length; i++) {
@@ -288,14 +302,9 @@ function onDragEnd(e) {
 
 function touchHandler() {
     // 印出目前有幾隻手指按在螢幕上
-    if (touches.length === 3 && isCanPlay) {
-        calcDistance();
-    } else {
-        // app.stage.removeChild(stamp1); // 把印章刪掉
-        // app.stage.removeChild(stamp2); // 把印章刪掉
-        
-        app.stage.removeChild(centerCircle); // 把中心點去除    
-    }
+
+    app.stage.removeChild(centerCircle); // 把中心點去除    
+
     app.stage.removeChild(testCircle1);
     app.stage.removeChild(testCircle2);
     app.stage.removeChild(testCircle3);
@@ -405,6 +414,7 @@ function renderStamp(target) {
                 app.stage.addChild(stamp2);
                 if (isCanPlay) {
                     choosePosArr[1] = target;
+                    isFourTouch = false;
                 }
             }, 300);                    
         }

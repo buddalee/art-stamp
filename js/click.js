@@ -5,7 +5,7 @@ var app = new PIXI.Application(window.innerWidth, window.innerHeight - 30, { bac
 document.body.appendChild(app.view);
 
 // create a background...
-var background = PIXI.Sprite.fromImage('/assets/2.jpg');
+var background = PIXI.Sprite.fromImage('assets/2.jpg');
 background.width = app.screen.width;
 background.height = app.screen.height;
 // add background to stage...

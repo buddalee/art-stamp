@@ -269,18 +269,24 @@ function hideCanvas() {
 var isFourTouch = false; 
 function onDragEnd(e) {
     console.log('目前有幾隻手指按在螢幕上: ', touches.length);
-    if (touches.length > 4) {
-        stampType = 2;
-    } else {
-        stampType = 1;
+    if (!isPCMode) {
+        if (touches.length > 4) {
+            stampType = 2;
+        } else {
+            stampType = 1;
+        }        
     }
+
     if (touches.length >= 3 && isCanPlay && !isFourTouch) {
         calcDistance();
-        if (touches.length > 4) {
-            isFourTouch = true;
-        } else {
-            isFourTouch = false;
+        if (!isPCMode) {
+            if (touches.length > 4) {
+                isFourTouch = true;
+            } else {
+                isFourTouch = false;
+            }    
         }
+
     }
     this.data = e.data;
     if (!isPCMode) {

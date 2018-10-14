@@ -52,10 +52,16 @@ if ('ontouchstart' in document.documentElement) {
     isPCMode = true;
     // alert('不支援多點觸控');
 }
-var ansNum;
+var ansNum1, ansNum2;
 function getRandomInt(min, max) {
-    ansNum = Math.floor(Math.random() * (max - min + 1)) + min;
-    return ansNum;
+    ansNum1 = Math.floor(Math.random() * (max - min + 1)) + min;
+    ansNum2 = Math.floor(Math.random() * (max - min + 1)) + min;
+    while(ansNum1 === ansNum2) {
+        ansNum2 = Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    console.log('ansNum1: ', ansNum1);
+    console.log('ansNum2: ', ansNum2);
+    
 }
 
 getRandomInt(1, 16);
@@ -75,38 +81,90 @@ for (; startx < endx; startx++) {
         centerArr.push({ x, y });
     }
 }
+var ansPointArray = [];
+ansPointArray[0] = centerArr[ansNum1 - 1];
+ansPointArray[1] = centerArr[ansNum2 - 1];
 
-var ansPoint = centerArr[ansNum - 1];
+ansPointArray[0].type = 1;
+ansPointArray[1].type = 2;
+
 var toloranceD = xd > yd ? xd : yd;
-renderStamp(ansPoint);
+// renderStamp(ansPointArray[0]);
+// renderStamp(ansPointArray[1]);
 
-var countingText = new PIXI.Text('倒數: 5', {
-    fontWeight: 'bold',
-    fontStyle: 'italic',
-    fontSize: 60,
-    fontFamily: 'Arvo',
-    fill: '#3e1707',
-    align: 'center',
-    stroke: '#a4410e',
-    strokeThickness: 7
-});
-countingText.x = app.screen.width / 2;
-countingText.y = 0;
-countingText.anchor.x = 0.5;
-app.stage.addChild(countingText);
-var count = 5;
+// function reRenderTopic() {
+
+// }
+function createTopic() {
+
+}
+var countingText;
 var isCanPlay = false;
-app.ticker.add(function () {
-    count -= 0.02;
-    // update the text with a new string
-    countingText.text = '倒數: ' + Math.floor(count);
-    if (Math.floor(count) === 0) {
-        isCanPlay = true;
-        app.stage.removeChild(countingText)
-        $('#confirmBtn').prop('disabled', false);
-    }
-});
-setTimeout(() => app.stage.removeChild(stamp), 5000);
+
+execCount();
+function execCount() {
+    renderStamp(ansPointArray[0]);
+    renderStamp(ansPointArray[1]);
+    countingText = new PIXI.Text('倒數: 5', {
+        fontWeight: 'bold',
+        fontStyle: 'italic',
+        fontSize: 60,
+        fontFamily: 'Arvo',
+        fill: '#3e1707',
+        align: 'center',
+        stroke: '#a4410e',
+        strokeThickness: 7
+    });
+    countingText.x = app.screen.width / 2;
+    countingText.y = 0;
+    countingText.anchor.x = 0.5;
+    app.stage.addChild(countingText);
+    var count = 5;
+    app.ticker.add(function () {
+        count -= 0.02;
+        // update the text with a new string
+        countingText.text = '倒數: ' + Math.floor(count);
+        if (Math.floor(count) === 0) {
+            isCanPlay = true;
+            app.stage.removeChild(countingText)
+            $('#confirmBtn').prop('disabled', false);
+        }
+    });
+    setTimeout(() => {
+        app.stage.removeChild(stamp1);
+        app.stage.removeChild(stamp2);
+    }, 5000);
+}
+// countingText = new PIXI.Text('倒數: 5', {
+//     fontWeight: 'bold',
+//     fontStyle: 'italic',
+//     fontSize: 60,
+//     fontFamily: 'Arvo',
+//     fill: '#3e1707',
+//     align: 'center',
+//     stroke: '#a4410e',
+//     strokeThickness: 7
+// });
+// countingText.x = app.screen.width / 2;
+// countingText.y = 0;
+// countingText.anchor.x = 0.5;
+// app.stage.addChild(countingText);
+// var count = 5;
+// var isCanPlay = false;
+// app.ticker.add(function () {
+//     count -= 0.02;
+//     // update the text with a new string
+//     countingText.text = '倒數: ' + Math.floor(count);
+//     if (Math.floor(count) === 0) {
+//         isCanPlay = true;
+//         app.stage.removeChild(countingText)
+//         $('#confirmBtn').prop('disabled', false);
+//     }
+// });
+// setTimeout(() => {
+//     app.stage.removeChild(stamp1);
+//     app.stage.removeChild(stamp2);
+// }, 5000);
 
 // 建立容器
 var objContainer = new PIXI.Container();
@@ -156,7 +214,7 @@ var testCircle1 = new PIXI.Graphics();
 var testCircle2 = new PIXI.Graphics();
 var testCircle3 = new PIXI.Graphics();
 var dotNum;
-var centerPoint;
+var centerPointArr = [{x: 0, y: 0},{x: 0, y: 0}];
 var touchPos;
 function onDragStart(e) {
     this.data = e.data;
@@ -165,7 +223,8 @@ function onDragStart(e) {
 
     touchPos = {
         x: Math.floor(this.data.global.x),
-        y: Math.floor(this.data.global.y)
+        y: Math.floor(this.data.global.y),
+        type: stampType
     }
     if (!isPCMode) {
         var touch = {
@@ -216,6 +275,7 @@ function onDragStart(e) {
 function showCanvas() {
     $("canvas").show();
     $("#final").removeClass('show');
+    $('#success-text').removeClass('show');
 }
 function hideCanvas() {
     $("canvas").hide();
@@ -246,10 +306,12 @@ function onDragEnd(e) {
 
 function touchHandler() {
     // 印出目前有幾隻手指按在螢幕上
-    if (touches.length === 3) {
+    if (touches.length === 3 && isCanPlay) {
         calcDistance();
     } else {
-        app.stage.removeChild(stamp); // 把印章刪掉
+        // app.stage.removeChild(stamp1); // 把印章刪掉
+        // app.stage.removeChild(stamp2); // 把印章刪掉
+        
         app.stage.removeChild(centerCircle); // 把中心點去除    
     }
     app.stage.removeChild(testCircle1);
@@ -276,51 +338,115 @@ function calcDistance() {
     const maxIdx = dis.findIndex(_dis => _dis === maxDistance);
     calcPhotoCenter(maxIdx);
     calcPhotoAngle(maxIdx);
-    renderStamp(centerPoint);
+    console.log('centerPointArr: ', centerPointArr);
+    if (stampType === 1) {
+        renderStamp(centerPointArr[0]);
+    } else {
+        renderStamp(centerPointArr[1]);
+    }
 }
 
 function checkAns() {
     if (isCanPlay && !isPCMode) {
-        validateAns(centerPoint);
+        validateAns(centerPointArr);
     }
     if (isCanPlay && isPCMode) {
-        validateAns(touchPos);
+        validateAns(choosePosArr);
     }
 }
 var dialog;
 var warningText;
-function validateAns(pos) {
-    const distance = Math.sqrt(Math.pow(pos.x - ansPoint.x, 2) + Math.pow(pos.y - ansPoint.y, 2));
-    if (toloranceD >= distance) {
+function validateAns(posArr) {
+    var startIdx1 = 0,
+    startIdx2 = 0;
+    var count = 0;
+    for (; startIdx1 < 2; startIdx1++) {
+        for (startIdx2 = 0; startIdx2 < 2; startIdx2++) {
+            const distance = Math.sqrt(Math.pow(posArr[startIdx1].x - ansPointArray[startIdx2].x, 2) + Math.pow(posArr[startIdx1].y - ansPointArray[startIdx2].y, 2));
+            console.log('distance: ', distance);
+            if (toloranceD >= distance) {
+                count++;
+            }
+        }
+    }
+    console.log('count: ', count);
+    if (count >= 2) {
         hideCanvas();
         $('#success-text').addClass('show');
-
     } else {
         $("#errorDialog").modal("show");
     }
 }
-var stamp;
+var stamp1, stamp2;
+var choosePosArr = [];
 function renderStamp(target) {
-    app.stage.removeChild(stamp); // 把印章刪掉
     if (stampType === 1) {
       var texture = PIXI.Texture.fromImage('assets/char1.png');
     } else {
       var texture = PIXI.Texture.fromImage('assets/char2.png');
     }
-    stamp = new PIXI.Sprite(texture);
-    const stampWidth = xd > yd ? yd : xd;
-    stamp.width = stampWidth;
-    stamp.height = stampWidth;
-    setTimeout(() => {
-        stamp.x = target.x;
-        stamp.y = target.y;
+    if (target.type) {
+        if (target.type === 1) {
+            console.log('我進來創造第一個印章');
+            
+            var texture = PIXI.Texture.fromImage('assets/char1.png');
+            app.stage.removeChild(stamp1); // 把印章刪掉
 
-        stamp.pivot.x = texture.width / 2;
-        stamp.pivot.y = texture.height / 2;
-        stamp.rotation = angle * (Math.PI / 180);
-        app.stage.addChild(stamp);
+            stamp1 = new PIXI.Sprite(texture);
+            const stampWidth = xd > yd ? yd : xd;
+            stamp1.width = stampWidth;
+            stamp1.height = stampWidth;
+            setTimeout(() => {
+                stamp1.x = target.x;
+                stamp1.y = target.y;
+        
+                stamp1.pivot.x = texture.width / 2;
+                stamp1.pivot.y = texture.height / 2;
+                stamp1.rotation = angle * (Math.PI / 180);
+                app.stage.addChild(stamp1);
+                choosePosArr[0] = target;
+            }, 300);            
+        } else {
+            console.log('我進來創造第二個印章');
+            var texture = PIXI.Texture.fromImage('assets/char2.png');
+            app.stage.removeChild(stamp2); // 把印章刪掉
 
-    }, 300);
+            stamp2 = new PIXI.Sprite(texture);
+            const stampWidth = xd > yd ? yd : xd;
+            stamp2.width = stampWidth;
+            stamp2.height = stampWidth;
+            setTimeout(() => {
+                stamp2.x = target.x;
+                stamp2.y = target.y;
+        
+                stamp2.pivot.x = texture.width / 2;
+                stamp2.pivot.y = texture.height / 2;
+                stamp2.rotation = angle * (Math.PI / 180);
+                app.stage.addChild(stamp2);
+                choosePosArr[1] = target;
+        
+            }, 300);                    
+        }
+
+    } else {
+        app.stage.removeChild(stamp1); // 把印章刪掉
+
+        stamp1 = new PIXI.Sprite(texture);
+        const stampWidth = xd > yd ? yd : xd;
+        stamp1.width = stampWidth;
+        stamp1.height = stampWidth;
+        setTimeout(() => {
+            stamp1.x = target.x;
+            stamp1.y = target.y;
+    
+            stamp1.pivot.x = texture.width / 2;
+            stamp1.pivot.y = texture.height / 2;
+            stamp1.rotation = angle * (Math.PI / 180);
+            app.stage.addChild(stamp1);
+    
+        }, 300);
+    }
+
 
 }
 var angle = 0;
@@ -351,10 +477,7 @@ function calcPhotoCenter(maxIdx) {
     const { x, y } = touches[maxIdx].pos;
     const _x = touches[anotherIdx].pos.x;
     const _y = touches[anotherIdx].pos.y;
-    centerPoint = { x: 0, y: 0 };
-
-    centerPoint.x = (x + _x) / 2;
-    centerPoint.y = (y + _y) / 2;
+    // centerPoint = { x: 0, y: 0 };
     app.stage.removeChild(centerCircle); // 把中心點去除
     centerCircle = new PIXI.Graphics();
     if (isShowDot) {
@@ -363,8 +486,24 @@ function calcPhotoCenter(maxIdx) {
         centerCircle.beginFill(0x00FF00, 0);
 
     }
+    if (stampType === 1) {
+        centerPointArr[0].x = (x + _x) / 2;
+        centerPointArr[0].y = (y + _y) / 2;
+        centerPointArr[0].type = stampType;
+        centerCircle.drawCircle(centerPointArr[0].x, centerPointArr[0].y, 10);
 
-    centerCircle.drawCircle(centerPoint.x, centerPoint.y, 10);
+        
+    } else {
+        centerPointArr[1].x = (x + _x) / 2;
+        centerPointArr[1].y = (y + _y) / 2;
+        centerPointArr[1].type = stampType;
+        centerCircle.drawCircle(centerPointArr[1].x, centerPointArr[1].y, 10);
+
+    }
+    // centerPoint.x = (x + _x) / 2;
+    // centerPoint.y = (y + _y) / 2;
+
+
     centerCircle.endFill();
     app.stage.addChild(centerCircle);
 }

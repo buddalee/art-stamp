@@ -522,10 +522,10 @@ function handleApiText() {
         // meta
         $('meta[property="og:description"]').attr("content", "我在蓋章攻略挑戰《鵲華秋色圖》成功");
         $('meta[property="og:image]').attr("content", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563659&r=76444636820");
-        $('#first-side').attr("src", "assets/1.jpg");
-        // $('#first-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563659&r=76444636820");
-        // $('#second-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563660&r=53685105549");
-        // $('#third-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563661&r=27156401078");
+        // $('#first-side').attr("src", "assets/1.jpg");
+        $('#first-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563659&r=76444636820");
+        $('#second-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563660&r=53685105549");
+        $('#third-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563661&r=27156401078");
       $('#articleSubject').text(articleSubject1);
       $('#articleMaker').text(articleMaker1);
       $('#articleMaker').text(articleMaker1);
@@ -538,10 +538,10 @@ function handleApiText() {
     } else {
         $('meta[property="og:description"]').attr("content", "我在蓋章攻略挑戰《富春山居圖》成功");
         $('meta[property="og:image]').attr("content", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563899&r=46846323715");
-        $('#first-side').attr("src", "assets/2.jpeg");        
-        // $('#first-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563899&r=46846323715");
-        // $('#second-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563898&r=45803529818");
-        // $('#third-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563897&r=74336372668");        
+        // $('#first-side').attr("src", "assets/2.jpeg");        
+        $('#first-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563899&r=46846323715");
+        $('#second-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563898&r=45803529818");
+        $('#third-side').attr("src", "http://painting.npm.gov.tw/getCollectionImage.aspx?ImageId=563897&r=74336372668");        
         $('#articleSubject').text(articleSubject2);
         $('#articleMaker').text(articleMaker2);
         $('#articleMaker').text(articleMaker2);
